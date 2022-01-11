@@ -1,10 +1,10 @@
 """Ready-made templates for generating user agents"""
 
-from magic_agent.core import base
-from magic_agent.agent.constants import MozillaDefault, RANDOM_LINUX, RANDOM_WINDOWS, AppleWebKit, LikeGecko, Chrome, Safari
-from magic_agent.core.mobile import DeviceLoad
-from magic_agent.core.base_device import BaseDevice
-from magic_agent.core.utils import sattolo_shuffle
+from ..core import base
+from ..agent.constants import MozillaDefault, RANDOM_LINUX, RANDOM_WINDOWS, AppleWebKit, LikeGecko, Chrome, Safari
+from ..core.mobile import DeviceLoad
+from ..core.base_device import BaseDevice
+from ..core.utils import sattolo_shuffle
 
 LinuxChrome = base.BaseAgent(
     rules=(

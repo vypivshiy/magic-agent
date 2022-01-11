@@ -4,10 +4,9 @@ from dataclasses import dataclass
 from os import PathLike
 from typing import List, Union
 
-from magic_agent.core import base
-
-from magic_agent.crawlers.config import TMP_WEBKIT, TMP_CHROME
-from magic_agent.crawlers import Updater
+from ..core import base
+from ..crawlers.config import TMP_WEBKIT, TMP_CHROME
+from ..crawlers import Updater
 
 
 def load_chromium(file: Union[PathLike, str] = TMP_CHROME) -> List[str]:

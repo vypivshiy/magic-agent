@@ -2,8 +2,8 @@ import json
 from random import choice
 from typing import Dict
 
-from magic_agent.agent.mobile_keys import *
-from magic_agent.crawlers.config import TMP_DEVICES
+from ..agent.mobile_keys import *
+from ..crawlers.config import TMP_DEVICES
 
 
 class DeviceLoad:

@@ -4,14 +4,14 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .base import RuleItem, RuleDevice, BaseAgent
-from magic_agent.agent.constants import (MozillaDefault,
-                                         SafariMobile,
-                                         Chrome,
-                                         AppleWebKit,
-                                         LikeGecko,
-                                         SafariRandom,
-                                         Safari,
-                                         AppleWebkitRandom)
+from ..agent.constants import (MozillaDefault,
+                               SafariMobile,
+                               Chrome,
+                               AppleWebKit,
+                               LikeGecko,
+                               SafariRandom,
+                               Safari,
+                               AppleWebkitRandom)
 
 
 @dataclass(frozen=True)
@@ -59,6 +59,7 @@ class BaseDevice:
 
 class MobileAgent:
     """Convert Device class to useragent"""
+
     def __init__(self, device: BaseDevice):
         self._device = device
 
@@ -135,4 +136,3 @@ class MobileAgent:
 
     def __str__(self):
         return self.agent().agent
-

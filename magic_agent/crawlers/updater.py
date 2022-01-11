@@ -1,7 +1,7 @@
 from ..core.utils import save_to_tmp, tmp_exist
-from magic_agent.crawlers import config
-from magic_agent.crawlers.http import Request
-from magic_agent.crawlers import webkits_all, chromium_all
+from ..crawlers import config
+from ..crawlers.http import Request
+from ..crawlers import webkits_all, chromium_all
 
 
 class Updater:
