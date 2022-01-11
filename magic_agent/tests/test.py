@@ -1,22 +1,22 @@
 import re
 import unittest
-from magic_agent import crawlers
-from magic_agent.agent import WindowsChrome, LinuxChrome, RandomApple, RandomAndroid, RandomMobileKey
-from magic_agent.agent.mobile_keys import SAMSUNG
-from magic_agent.core.base import RuleItem, RuleDevice, RuleItemGenerator, BaseAgent, sequence_generator
-from magic_agent.core.base_device import BaseDevice
-from magic_agent.core.utils import sattolo_shuffle
+from magic_agent.crawlers import Request
 from magic_agent.crawlers.parsers import RE_CHROMIUM, RE_WEBKIT
+from magic_agent.core.mobile_keys import SAMSUNG
+from magic_agent.core.base_device import MobileDevice
+from magic_agent.core.utils import sattolo_shuffle
+from magic_agent.core.base import RuleItem, RuleDevice, RuleItemGenerator, BaseAgent, sequence_generator
+from magic_agent.templates import WindowsChrome, LinuxChrome, RandomApple, RandomAndroid, RandomMobileKey
 
 
 class Test(unittest.TestCase):
     def test_request_json(self):
-        r = crawlers.Request.json("https://httpbin.org/get", params={"foo space": "bar"})
+        r = Request.json("https://httpbin.org/get", params={"foo space": "bar"})
         self.assertTrue(re.search(r"Python-urllib/\d", r["headers"]["User-Agent"]))
         self.assertEqual(r["url"], "https://httpbin.org/get?foo space=bar")
 
     def test_request_get(self):
-        r = crawlers.Request.get("https://httpbin.org/get")
+        r = Request.get("https://httpbin.org/get")
         self.assertTrue(re.search(r"https://httpbin\.org/get", r))
         self.assertTrue(re.search(r"Python-urllib/\d", r))
 
@@ -68,7 +68,7 @@ class Test(unittest.TestCase):
              "resolution": {"height": 1, "wight": 2}, "market_regions": ["Kekistan", "SovietRussia"],
              "codename": "TestCase", "oem_id": "foobar", "platform": "Android",
              "market_countries": ["KEK", "USSR"], "battery_capacity": 99_999}
-        b = BaseDevice(**test_dict)
+        b = MobileDevice(**test_dict)
         self.assertEqual(b.model, "Test Mobile")
         self.assertEqual(b.model_id[0], "T123")
         self.assertEqual(b.market_regions, ["Kekistan", "SovietRussia"])
@@ -79,7 +79,7 @@ class Test(unittest.TestCase):
              "resolution": {"height": 1, "wight": 2}, "market_regions": ["Kekistan", "SovietRussia"],
              "codename": "TestCase", "oem_id": "foobar", "platform": "Android",
              "market_countries": ["KEK", "USSR"], "battery_capacity": 99_999}
-        b = BaseDevice(**test_dict)
+        b = MobileDevice(**test_dict)
         self.assertTrue("(Linux; Android 10.0; T123)" in b.agent.agent)
 
     def test_satollo_shuffle(self):
