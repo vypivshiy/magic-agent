@@ -1,17 +1,11 @@
+"""Simple parsers actual versions chrome and webkits versions.
+WARNING!!! chrome and webkit response are very large,
+(chrome ~2.1MiB, webkit ~5.1 MiB) so the response does come very slow!"""
 import re
 from typing import List
 
-from magic_agent.crawlers.http import Request
-
-"""Simple parsers actual versions chrome and webkits versions.
-WARNING!!! chrome and webkit response are very large, 
-(chrome ~2.1MiB, webkit ~5.1 MiB) so the response does come very slow!"""
-
-RE_CHROMIUM = re.compile(r'<a href="/chromium/src/\+/refs/tags/[\d.]{2,}">([\d.]{2,})</a>')
-RE_WEBKIT = re.compile(r">Safari-([\d.]{2,})<")
-
-WEBKIT_REP_URL = "https://trac.webkit.org/browser/webkit/tags?action=inplace"
-CHROME_REP_URL = "https://chromium.googlesource.com/chromium/src/+refs"
+from ..crawlers.http import Request
+from .config import WEBKIT_REP_URL, CHROME_REP_URL, RE_CHROMIUM, RE_WEBKIT
 
 
 def chromium_last_versions(os: str) -> str:

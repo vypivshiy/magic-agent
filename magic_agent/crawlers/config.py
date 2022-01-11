@@ -1,8 +1,15 @@
 import os
 import tempfile
+import re
 
+__version__ = 0.11
 
-__version__ = 0.1
+WEBKIT_REP_URL = "https://trac.webkit.org/browser/webkit/tags?action=inplace"
+CHROME_REP_URL = "https://chromium.googlesource.com/chromium/src/+refs"
+
+# regular expressions for get versions in browsers engines repos
+RE_CHROMIUM = re.compile(r'<a href="/chromium/src/\+/refs/tags/[\d.]{2,}">([\d.]{2,})</a>')
+RE_WEBKIT = re.compile(r">Safari-([\d.]{2,})<")
 
 
 DEVICES_JSON = f"magic-agent_devices_{__version__}.json"
