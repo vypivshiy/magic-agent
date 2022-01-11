@@ -1,26 +1,33 @@
 from dataclasses import dataclass
 from random import choice
 from typing import Sequence, Optional, Iterable, Union, Generator, AnyStr, List
-from magic_agent.core import utils
-
-
-def sequence_generator(seq: List, *, shuffle: bool = True) -> Generator:
-    while True:
-        if shuffle:
-            seq = utils.sattolo_shuffle(seq)
-        yield from seq
+from ..core import utils
+from abc import ABC, abstractmethod
 
 
 @dataclass
-class RuleItem:
-    """Generate item"""
+class Rule(ABC):
+    """Abstract rule object"""
     string: str = ""
-    items: Optional[Union[Sequence[Sequence], Sequence]] = None
 
     def format(self, *args):
         if args:
             return self.string.format(*args[1:])
         return self.string
+
+    @abstractmethod
+    def get(self):
+        pass
+
+    def __str__(self):
+        return self.get()
+
+
+@dataclass
+class RuleItem(Rule):
+    """Generate item"""
+    string: str = ""
+    items: Optional[Union[Sequence[Sequence], Sequence]] = None
 
     def get(self):
         if self.items:
@@ -40,21 +47,13 @@ class RuleItem:
                 return self.format(self.string, *_items)
         return self.string
 
-    def __str__(self):
-        return self.get()
-
 
 @dataclass
-class RuleItemGenerator:
+class RuleItemGenerator(Rule):
     """Generate Item with generator object"""
     string: str = ""
     generators: Optional[Union[Sequence[Generator], Generator]] = None
     randomize: bool = True
-
-    def format(self, *args):
-        if args:
-            return self.string.format(*args[1:])
-        return self.string
 
     def get(self):
         _count = self.string.count("{}")
@@ -73,9 +72,6 @@ class RuleItemGenerator:
                         _items.append(item)
             return self.format(self.string, *_items)
         return self.string
-
-    def __str__(self):
-        return self.get()
 
 
 @dataclass
@@ -97,6 +93,7 @@ class RuleDevice:
 
 class BaseAgent(object):
     """Base useragent generator class"""
+
     def __init__(self, *, rules: Sequence[RuleItem]):
         self._rules = rules
 
@@ -109,3 +106,11 @@ class BaseAgent(object):
     def agent_to_dict(self):
         """Convert sequence rules to user-agent dict. Default user-agent key title-style"""
         return {"User-Agent": self.agent}
+
+
+def sequence_generator(seq: List, *, shuffle: bool = True) -> Generator:
+    """wrapper for create generator from list items"""
+    while True:
+        if shuffle:
+            seq = utils.sattolo_shuffle(seq)
+        yield from seq
