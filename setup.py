@@ -8,7 +8,7 @@ from magic_agent.crawlers import Updater
 Updater().cache_exist()
 
 
-with open("README.md", encoding="utf-8") as f:
+with open("README.MD", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
