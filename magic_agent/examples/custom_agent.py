@@ -1,5 +1,5 @@
 from magic_agent.core.base import RuleItem, RuleDevice, BaseAgent
-from magic_agent.agent.constants import Chrome
+from magic_agent.core import rules
 
 app = RuleItem(string="com.myapp.apk/{}", items=list(range(2200, 2300)))
 
@@ -17,7 +17,7 @@ device = RuleDevice(
 # prepare agent object generator
 b = BaseAgent(rules=(app,
                      device,
-                     Chrome
+                     rules.Chrome
                      )
               )
 

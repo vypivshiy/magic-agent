@@ -42,8 +42,8 @@ if __name__ == '__main__':
 
 ```python
 from magic_agent import RandomApple, RandomAndroid
-from magic_agent import RandomMobileKey  # if you need конкретная модель
-from magic_agent.agent.mobile_keys import SAMSUNG
+from magic_agent import RandomMobileKey  # if you need specific model device
+from magic_agent.core.mobile_keys import SAMSUNG
 
 # random apple mobile agent
 print(RandomApple().agent)
@@ -61,7 +61,7 @@ print(RandomMobileKey(SAMSUNG).agent)
 ```python
 """Generator user-agent for fictional android application"""
 from magic_agent.core.base import RuleItem, RuleDevice, BaseAgent
-from magic_agent.agent.templates import Chrome
+from magic_agent.core.rules import Chrome
 
 app = RuleItem(string="com.myapp.apk/{}", items=[i for i in range(2200, 2300)])
 device = RuleDevice(items=("Linux", "PalmOS", "My-SUPER-SMARTPHONE {}", "Build/{}"),
@@ -84,17 +84,19 @@ for _ in range(3):
 # com.myapp.apk/2251 (Linux, PalmOS, My-SUPER-SMARTPHONE 452, Build/A) Chrome/90.0.4430.227
 ```
 ~~**How do you like that, Elon Musk???**~~
+
 ```python
 """Generator user-agent like in Tesla car!"""
 from random import sample
 from string import ascii_lowercase, digits
 from magic_agent.core.base import BaseAgent, RuleItem, RuleDevice, RuleItemGenerator
-from magic_agent.agent.constants import (Chrome, 
-                                         MozillaDefault, 
-                                         AppleWebKit, 
-                                         LikeGecko, 
-                                         Safari, 
-                                         chromium_generator)
+from magic_agent.core.rules import (Chrome,
+                                    MozillaDefault,
+                                    AppleWebKit,
+                                    LikeGecko,
+                                    Safari,
+                                    chromium_generator)
+
 
 # pseudo random imei generator
 def random_imei(): return "".join(sample(ascii_lowercase + digits, 12))
@@ -110,7 +112,7 @@ if __name__ == '__main__':
                          tuple((random_imei() for _ in range(20)))
                      ))
 
-    chromium = RuleItemGenerator(string="Chromium/{} Chrome/{}", 
+    chromium = RuleItemGenerator(string="Chromium/{} Chrome/{}",
                                  generators=chromium_generator(),
                                  randomize=False)  # chromium and chrome versions should be equal! 
     b = BaseAgent(rules=(

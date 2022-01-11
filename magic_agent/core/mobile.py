@@ -2,7 +2,7 @@ import json
 from random import choice
 from typing import Dict
 
-from ..agent.mobile_keys import *
+from magic_agent.core.mobile_keys import *
 from ..crawlers.config import TMP_DEVICES
 
 

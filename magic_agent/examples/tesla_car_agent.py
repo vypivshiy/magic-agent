@@ -4,7 +4,7 @@ from random import sample
 from string import ascii_lowercase, digits
 from magic_agent.core.base import BaseAgent, RuleItem, RuleDevice, RuleItemGenerator
 # import constants Rules
-from magic_agent.agent.constants import MozillaDefault, AppleWebKit, LikeGecko, Safari, chromium_generator
+from magic_agent.core.rules import MozillaDefault, AppleWebKit, LikeGecko, Safari, chromium_generator
 
 
 # pseudo imei generator

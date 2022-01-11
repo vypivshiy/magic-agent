@@ -1,5 +1,5 @@
-from magic_agent.agent import RandomMobileKey, RandomApple, RandomAndroid
-from magic_agent.agent.mobile_keys import SAMSUNG
+from magic_agent.templates import RandomMobileKey, RandomApple, RandomAndroid
+from magic_agent.core.mobile_keys import SAMSUNG
 
 
 if __name__ == '__main__':

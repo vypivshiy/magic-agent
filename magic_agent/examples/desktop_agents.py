@@ -1,4 +1,4 @@
-from magic_agent.agent import WindowsChrome, LinuxChrome
+from magic_agent.templates import WindowsChrome, LinuxChrome
 
 
 if __name__ == '__main__':

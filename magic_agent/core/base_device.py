@@ -4,19 +4,19 @@ from dataclasses import dataclass
 from typing import Optional
 
 from .base import RuleItem, RuleDevice, BaseAgent
-from ..agent.constants import (MozillaDefault,
-                               SafariMobile,
-                               Chrome,
-                               AppleWebKit,
-                               LikeGecko,
-                               SafariRandom,
-                               Safari,
-                               AppleWebkitRandom)
+from magic_agent.core.rules import (MozillaDefault,
+                                    SafariMobile,
+                                    Chrome,
+                                    AppleWebKit,
+                                    LikeGecko,
+                                    SafariRandom,
+                                    Safari,
+                                    AppleWebkitRandom)
 
 
 @dataclass(frozen=True)
-class BaseDevice:
-    """Base Device dataclass"""
+class MobileDevice:
+    """Base mobile device dataclass"""
     model: str
     released: int
     operating_system: str
@@ -59,13 +59,22 @@ class BaseDevice:
 
 class MobileAgent:
     """Convert Device class to useragent"""
+    __RE_SYSTEM_VERSION = re.compile(r"([\d.]+)")
 
-    def __init__(self, device: BaseDevice):
+    def __init__(self, device: MobileDevice):
         self._device = device
+
+    def agent(self, *, by_device_name: bool = True, by_model_id: bool = True) -> BaseAgent:
+        """return singe device BaseAgent class"""
+        if self._device.is_android:
+            return self._android_agent(by_model_id, by_device_name)
+
+        elif self._device.is_apple:
+            return self._apple_agent()
 
     @property
     def _system_version(self) -> str:
-        return re.findall(r"([\d.]+)", self._device.operating_system)[0]
+        return self.__RE_SYSTEM_VERSION.findall(self._device.operating_system)[0]
 
     def _android_agent(self, by_model_id, by_device_name):
         device_items = ["Linux"]
@@ -125,14 +134,6 @@ class MobileAgent:
                 device_build,
                 SafariRandom
             ))
-
-    def agent(self, *, by_device_name: bool = True, by_model_id: bool = True) -> BaseAgent:
-        """return singe device BaseAgent class"""
-        if self._device.is_android:
-            return self._android_agent(by_model_id, by_device_name)
-
-        elif self._device.is_apple:
-            return self._apple_agent()
 
     def __str__(self):
         return self.agent().agent
