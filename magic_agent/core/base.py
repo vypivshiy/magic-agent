@@ -78,7 +78,7 @@ class RuleItemGenerator(Rule):
 class RuleDevice:
     items: Sequence[AnyStr]
     sep: str = "; "
-    rule: Optional[RuleItem] = None
+    rule: Optional[Rule] = None
 
     def get(self):
         device_str = "(" + self.sep.join((_.strip() for _ in self.items)) + ")"
@@ -94,7 +94,7 @@ class RuleDevice:
 class BaseAgent(object):
     """Base useragent generator class"""
 
-    def __init__(self, *, rules: Sequence[RuleItem]):
+    def __init__(self, *, rules: Sequence[Rule]):
         self._rules = rules
 
     @property
